@@ -1,5 +1,4 @@
 import oracledb
-
 oracledb.init_oracle_client()
 
 username = "DARSHNI"
@@ -10,10 +9,11 @@ service_name = "XE"
 
 dsn = f"{username}/{password}@{host}:{port}/{service_name}"
 connection = oracledb.connect(dsn=dsn)
+connection.autocommit = True
 cursor = connection.cursor()
 
-for row in cursor.execute("select * from books"):
-    print(row)
+row = [i[0] for i in cursor.execute("select bookid from books")]
+print(row)
 
 cursor.close()
 connection.close()
